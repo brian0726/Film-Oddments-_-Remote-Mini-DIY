@@ -1,4 +1,4 @@
-# Film-Oddments-_-Remote-Mini-DYI
+# Film-Oddments-Remote-Mini-DYI
 Remote Mini - DIY Bluetooth Camera Shutter
 Welcome to the official open-source repository for the DIY version of the Remote Mini, a project by Film Oddments.
 
