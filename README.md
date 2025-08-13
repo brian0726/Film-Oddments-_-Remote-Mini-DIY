@@ -19,7 +19,9 @@ We decided to share the design and code for this compact, multi-function Bluetoo
 **Files in this Repository**
 
 /3D_Models: Contains all the .STL files required for 3D printing the enclosure.
+
 /Code: Includes the Arduino source code (.ino) for the ESP32.
+
 /Schematics: The circuit diagram for wiring the components.
 
 -----------------------------------------
