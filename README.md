@@ -6,6 +6,7 @@ We decided to share the design and code for this compact, multi-function Bluetoo
 
 -----------------------------------------
 **Features**
+
 - Shutter Trigger: Instantly capture photos with a press of a button.
 - Bulb Mode: Keep the shutter open for long exposure shots.
 - Timer Mode: Set a timer for hands-free shooting.
@@ -16,6 +17,7 @@ We decided to share the design and code for this compact, multi-function Bluetoo
 
 -----------------------------------------
 **Files in this Repository**
+
 /3D_Models: Contains all the .STL files required for 3D printing the enclosure.
 /Code: Includes the Arduino source code (.ino) for the ESP32.
 /Schematics: The circuit diagram for wiring the components.
@@ -30,6 +32,7 @@ We decided to share the design and code for this compact, multi-function Bluetoo
 
 -----------------------------------------
 **Find Us Online!**
+
 If you like what we do, you can check out our official products or see what else we're working on. We'd love your support!
 
 Homepage: https://film-oddments.myshopify.com/
@@ -38,6 +41,7 @@ Instagram: https://www.instagram.com/film_oddments/
 
 -----------------------------------------
 **Important: License and Disclaimer**
+
 The design, code, and all related files are the intellectual property of Film Oddments and are shared under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0).
 
 This means you are free to share (copy and redistribute) the material for non-commercial purposes, but you may not use it for commercial activities or distribute modified versions.
