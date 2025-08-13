@@ -22,13 +22,11 @@ We decided to share the design and code for this compact, multi-function Bluetoo
 
 -----------------------------------------
 **Assembly & Installation**
-3D Print: Print all the parts from the /3D_Models folder.
 
-Wiring: Solder the components together according to the circuit diagram found in the /Schematics folder.
-
-Code Upload: Open the .ino file from the /Code folder in the Arduino IDE, and upload it to your ESP32 board.
-
-Final Assembly: Carefully place the electronics inside the 3D-printed case and secure it.
+- 3D Print: Print all the parts from the /3D_Models folder.
+- Wiring: Solder the components together according to the circuit diagram found in the /Schematics folder.
+- Code Upload: Open the .ino file from the /Code folder in the Arduino IDE, and upload it to your ESP32 board.
+- Final Assembly: Carefully place the electronics inside the 3D-printed case and secure it.
 
 -----------------------------------------
 **Find Us Online!**
