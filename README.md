@@ -7,6 +7,8 @@ We decided to share the design and code for this compact, multi-function Bluetoo
 -----------------------------------------
 **Features**
 
+![Remote Mini DIY Product](images/product.jpg)
+
 - Shutter Trigger: Instantly capture photos with a press of a button.
 - Bulb Mode: Keep the shutter open for long exposure shots.
 - Timer Mode: Set a timer for hands-free shooting.
@@ -23,6 +25,8 @@ We decided to share the design and code for this compact, multi-function Bluetoo
 /Code: Includes the Arduino source code (.ino) for the ESP32.
 
 /Schematics: The circuit diagram for wiring the components.
+
+![Remote Mini DIY Circuit Diagram](Schematics/circuit.jpg)
 
 -----------------------------------------
 **Assembly & Installation**
