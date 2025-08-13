@@ -26,7 +26,7 @@ We decided to share the design and code for this compact, multi-function Bluetoo
 
 /Schematics: The circuit diagram for wiring the components.
 
-![Remote Mini DIY Circuit Diagram](Schematics/circuit.jpg)
+![Remote Mini DIY Circuit Diagram](Schematics/Schematics_Remote_Mini.jpg)
 
 -----------------------------------------
 **Assembly & Installation**
