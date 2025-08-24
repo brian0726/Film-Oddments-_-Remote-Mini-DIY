@@ -38,7 +38,9 @@ We decided to share the design and code for this compact, multi-function Bluetoo
   
 -----------------------------------------
 **Video Guide**
+
 Remote Mini release swap guide: https://youtu.be/MaVnfIBbx1U
+
 Remote Mini Assembly Guide: https://youtu.be/KrDAGnrWniE
   
 -----------------------------------------
