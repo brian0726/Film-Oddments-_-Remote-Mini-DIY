@@ -43,49 +43,41 @@
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
-// --- Servo & Pin Configuration ---
 Servo myservo;
 int servoPin = 4;
 int ledPin = 2; 
 int pos = 0;    
 bool isBulbMode = false; 
 
-#define SERVO_OFF_POS 0   
-int servoOnAngle = 0;       
+#define FIXED_MAX_ANGLE 180    
+int servoMinAngle = 0;         
 
 BLECharacteristic *pCharacteristic;
 String receivedMessage = "";
+
 Preferences preferences;
 
-void calculateAndSetOnAngle(int userValue) {
-  servoOnAngle = 130 * (180 - userValue) / 100;
-  Serial.print("User value received: ");
-  Serial.print(userValue);
-  Serial.print(" -> Calculated ON Angle: ");
-  Serial.println(servoOnAngle);
-
+void loadServoRangeFromNVS() {
   preferences.begin("servoConfig", false);
-  preferences.putInt("userValue", userValue);
+  servoMinAngle = preferences.getInt("servoMin", 80);
+  Serial.print("Loaded servoMinAngle: ");
+  Serial.println(servoMinAngle);
   preferences.end();
-  Serial.println("New setting saved.");
 }
 
-void loadSettingFromNVS() {
-  preferences.begin("servoConfig", true); 
-  int userValue = preferences.getInt("userValue", 130); 
+void saveServoRangeToNVS(int range) {
+  preferences.begin("servoConfig", false);
+  preferences.putInt("servoMin", range);
+  Serial.print("Saved servoMinAngle: ");
+  Serial.println(range);
   preferences.end();
-  
-  Serial.print("Loaded userValue from NVS: ");
-  Serial.println(userValue);
-  
-  calculateAndSetOnAngle(userValue);
 }
 
 void setup() {
   Serial.begin(115200);
   Serial.println("Starting BLE and Servo setup!");
 
-  loadSettingFromNVS(); 
+  loadServoRangeFromNVS();
 
   BLEDevice::init("BT Shutter_Film oddments");
   BLEServer *pServer = BLEDevice::createServer();
@@ -100,9 +92,9 @@ void setup() {
   pAdvertising->start();
 
   ESP32PWM::allocateTimer(0);
-  myservo.setPeriodHertz(50);   
+  myservo.setPeriodHertz(50);  
   myservo.attach(servoPin, 500, 2500);
-  myservo.write(SERVO_OFF_POS); 
+  myservo.write(FIXED_MAX_ANGLE);
 
   pinMode(ledPin, OUTPUT);
   digitalWrite(ledPin, LOW);
@@ -126,49 +118,56 @@ void handleCommand(String command) {
     mode.trim();
     String valueStr = command.substring(commaIndex + 1);
     valueStr.trim();
-    int userValue = valueStr.toInt();
 
-    calculateAndSetOnAngle(userValue);
+    if (mode.equalsIgnoreCase("deep") || mode.equalsIgnoreCase("shallow")) {
+      int inputValue = valueStr.toInt();
 
-  } else if (command.equalsIgnoreCase("on")) {
-    triggerServo();    
+      int calculatedMinAngle = FIXED_MAX_ANGLE - (float)(FIXED_MAX_ANGLE - inputValue) / 100.0 * 180.0;
+      
+      if (calculatedMinAngle < 0) calculatedMinAngle = 0;
+      if (calculatedMinAngle > FIXED_MAX_ANGLE) calculatedMinAngle = FIXED_MAX_ANGLE;
+
+      servoMinAngle = calculatedMinAngle;
+      saveServoRangeToNVS(servoMinAngle); 
+
+      Serial.print("Input received: ");
+      Serial.print(inputValue);
+      Serial.print(", Calculated new servoMinAngle: ");
+      Serial.println(servoMinAngle);
+
+    } else {
+      Serial.println("Unknown mode in command.");
+    }
+  }
+  else if (command.equalsIgnoreCase("on")) {
+    triggerServo();
   } else if (command.equalsIgnoreCase("off")) {
-    resetServo();      
+    resetServo();
   } else if (command.equalsIgnoreCase("bulb")) {
-    toggleBulbMode();  
+    toggleBulbMode();
   } else if (command.equalsIgnoreCase("blink")) {
-    blinkLED();        
+    blinkLED();
   } else {
     Serial.println("Unknown command received.");
   }
 }
 
 void triggerServo() {
-  Serial.print("Triggering Servo ON... Moving to ");
-  Serial.print(servoOnAngle);
-  Serial.println(" degrees.");
-  
-  for (pos = SERVO_OFF_POS; pos <= servoOnAngle; pos += 5) { 
+  Serial.println("Triggering Servo ON...");
+  for (pos = FIXED_MAX_ANGLE; pos >= servoMinAngle; pos -= 5) {
     myservo.write(pos);
     delay(20);
   }
-  myservo.write(servoOnAngle);
-  
-  Serial.print("Servo is ON at ");
-  Serial.print(servoOnAngle);
-  Serial.println(" degrees.");
+  Serial.println("Servo is ON.");
 }
 
 void resetServo() {
-  Serial.println("Triggering Servo OFF... Moving to 0 degrees.");
-
-  for (pos = servoOnAngle; pos >= SERVO_OFF_POS; pos -= 5) {
+  Serial.println("Triggering Servo OFF...");
+  for (pos = servoMinAngle; pos <= FIXED_MAX_ANGLE; pos += 5) {
     myservo.write(pos);
     delay(20);
   }
-  myservo.write(SERVO_OFF_POS);
-  
-  Serial.println("Servo is OFF at 0 degrees.");
+  Serial.println("Servo is OFF.");
 }
 
 void toggleBulbMode() {
@@ -192,3 +191,4 @@ void blinkLED() {
   }
   Serial.println("LED blinking complete.");
 }
+
